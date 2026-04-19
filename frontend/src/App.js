@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 
+// ✅ ONE LINE FIX — works on localhost AND after deployment!
+const API = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
 function App() {
   const [jobs, setJobs] = useState([]);
   const [search, setSearch] = useState("");
@@ -17,7 +20,7 @@ function App() {
 
   // FETCH JOBS
   const fetchJobs = () => {
-    fetch("http://localhost:5000/jobs")
+    fetch(`${API}/jobs`)
       .then(res => res.json())
       .then(data => setJobs(data.data));
   };
@@ -36,8 +39,8 @@ function App() {
     e.preventDefault();
 
     const url = editId
-      ? `http://localhost:5000/update-job/${editId}`
-      : "http://localhost:5000/add-job";
+      ? `${API}/update-job/${editId}`
+      : `${API}/add-job`;
 
     const method = editId ? "PUT" : "POST";
 
@@ -64,7 +67,7 @@ function App() {
 
   // DELETE JOB
   const deleteJob = (id) => {
-    fetch(`http://localhost:5000/delete-job/${id}`, {
+    fetch(`${API}/delete-job/${id}`, {
       method: "DELETE"
     })
       .then(res => res.json())
